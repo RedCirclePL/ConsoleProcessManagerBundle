@@ -1,0 +1,22 @@
+{
+  "name": "red-circle/console-process-manager",
+  "type": "symfony-bundle",
+  "description": "Provides a way to logging all console events",
+  "keywords": ["symfony","console","manager"],
+  "homepage": "https://github.com/RedCirclePL/ConsoleProcessManagerBundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mateusz Krysztofiak",
+      "email": "mateusz@redcircle.pl"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "symfony/framework-bundle": ">=2.3",
+    "sensio/framework-extra-bundle": ">=2.1"
+  },
+  "autoload": {
+    "psr-0": { "RedCircle\\ConsoleProcessManagerBundle": "" }
+  }
+}
