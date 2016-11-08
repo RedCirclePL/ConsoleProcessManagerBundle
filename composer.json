@@ -17,6 +17,6 @@
     "sensio/framework-extra-bundle": ">=2.1"
   },
   "autoload": {
-    "psr-0": { "RedCircle\\ConsoleProcessManagerBundle": "" }
+    "psr-4": { "RedCircle\\ConsoleProcessManagerBundle\\": "" }
   }
 }
