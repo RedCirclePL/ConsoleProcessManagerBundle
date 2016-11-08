@@ -1,5 +1,5 @@
 {
-  "name": "red-circle/console-process-manager",
+  "name": "red-circle/console-process-manager-bundle",
   "type": "symfony-bundle",
   "description": "Provides a way to logging all console events",
   "keywords": ["symfony","console","manager"],
