@@ -1,0 +1,29 @@
+
+services:
+    red_circle.console_process_manager.process:
+        class: RedCircle\ConsoleProcessManagerBundle\Entity\Process
+        factory: ["@doctrine", getRepository]
+
+    red_circle.console_process_manager.process_repository:
+        class: RedCircle\ConsoleProcessManagerBundle\Repository\ProcessRepository
+        factory: ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['ConsoleProcessManagerBundle:Process']
+
+    red_circle.console_process_manager.call:
+        class: RedCircle\ConsoleProcessManagerBundle\Entity\Call
+        factory: ["@doctrine", getRepository]
+
+    red_circle.console_process_manager.call_repository:
+        class: RedCircle\ConsoleProcessManagerBundle\Repository\CallRepository
+        factory: ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['ConsoleProcessManagerBundle:Call']
+
+    red_circle.listener.command_listener:
+        class: RedCircle\ConsoleProcessManagerBundle\EventListener\CommandListener
+        calls:
+            - [ setProcessRepository, [@red_circle.console_process_manager.process_repository] ]
+            - [ setCallRepository, [@red_circle.console_process_manager.call_repository] ]
+        tags:
+            - { name: kernel.event_listener, event: console.command }
+            - { name: kernel.event_listener, event: console.exception }
+            - { name: kernel.event_listener, event: console.terminate }
