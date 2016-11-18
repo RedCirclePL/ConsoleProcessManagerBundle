@@ -195,11 +195,10 @@ class Call
     {
         if(!$this->getFinishedAt()) {
             $now = new \DateTime();
-            $executionTime = $now->getTimestamp() - $this->getCreatedAt()->getTimestamp();
+            return $now->getTimestamp() - $this->getCreatedAt()->getTimestamp();
         } else {
-            $executionTime = $this->executionTime;
+            return $this->getFinishedAt()->getTimestamp() - $this->getCreatedAt()->getTimestamp();
         }
-        return $executionTime;
     }
 
     /**
