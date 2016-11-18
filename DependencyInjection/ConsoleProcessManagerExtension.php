@@ -26,9 +26,5 @@ class ConsoleProcessManagerExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
-        if(class_exists('Sonata\\AdminBundle\\Admin\\AbstractAdmin')) {
-            $loader->load('services_sonata_admin.yml');
-        }
     }
 }
