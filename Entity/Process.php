@@ -163,6 +163,16 @@ class Process
     }
 
     /**
+     * Get $avgExecutionTime in format H:i:s
+     *
+     * @return string
+     */
+    public function getAvgExecutionTimeToString()
+    {
+        return gmdate('H:i:s', $this->avgExecutionTime);
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -238,5 +248,13 @@ class Process
     public function onPreUpdate()
     {
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getCommand();
     }
 }

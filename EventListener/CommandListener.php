@@ -42,8 +42,6 @@ class CommandListener
      */
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
-
-        $event->stopPropagation();
         if (!$this->processRepository->createSchemaIfNotExists()) {
             throw new Exception('Cannot create schema for ConsoleProcessManagerBundle');
         }
@@ -59,6 +57,7 @@ class CommandListener
 
         $call = new Call();
         $call->setStatus(Call::STATUS_STARTED);
+        $call->setConsolePid($this->getPid());
 
         $this->processRepository->addCallToProcess($process, $call);
 
@@ -99,13 +98,22 @@ class CommandListener
         }
 
         $call->setFinishedAt(new \DateTime());
-        $newExecutionTime = $call->getFinishedAt()->getTimestamp() - $call->getCreatedAt()->getTimestamp();
 
-        $call->setExecutionTime($newExecutionTime);
+        $call->setExecutionTime($call->getExecutionTime());
 
-        $this->processRepository->countAvgExecutionTime($call->getProcess(), $newExecutionTime);
+        $this->processRepository->countAvgExecutionTime($call->getProcess(), $call->getExecutionTime());
         $this->processRepository->update($call->getProcess());
 
         $this->callRepository->update($call);
+    }
+
+    /**
+     * Returns console command line process ID
+     *
+     * @return int
+     */
+    private function getPid()
+    {
+        return posix_getpid();
     }
 }

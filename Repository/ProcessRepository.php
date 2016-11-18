@@ -3,10 +3,10 @@
 namespace RedCircle\ConsoleProcessManagerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Tools\SchemaTool;
+//use Doctrine\ORM\Tools\SchemaTool;
 use RedCircle\ConsoleProcessManagerBundle\Entity\Call;
 use RedCircle\ConsoleProcessManagerBundle\Entity\Process;
-use Symfony\Component\Console\Input\ArgvInput;
+//use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * ProcessRepository
@@ -122,6 +122,7 @@ class ProcessRepository extends EntityRepository
         $createCall = $connection->prepare("
             CREATE TABLE IF NOT EXISTS console_manager_call (
                 id INT AUTO_INCREMENT NOT NULL,
+                console_pid INT NOT NULL,
                 process_id INT NOT NULL,
                 created_at DATETIME NOT NULL,
                 finished_at DATETIME NULL,

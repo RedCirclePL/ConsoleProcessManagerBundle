@@ -29,6 +29,13 @@ class Call
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="console_pid", type="integer")
+     */
+    private $consolePid;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -78,6 +85,24 @@ class Call
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $consolePid
+     * @return Call
+     */
+    public function setConsolePid($consolePid)
+    {
+        $this->consolePid = $consolePid;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConsolePid()
+    {
+        return $this->consolePid;
     }
 
     /**
@@ -166,7 +191,37 @@ class Call
      */
     public function getExecutionTime()
     {
-        return $this->executionTime;
+        if(!$this->getFinishedAt()) {
+            $now = new \DateTime();
+            $executionTime = $now->getTimestamp() - $this->getCreatedAt()->getTimestamp();
+        } else {
+            $executionTime = $this->executionTime;
+        }
+        return $executionTime;
+    }
+
+    /**
+     * Get executionTime in format H:i:s
+     *
+     * @return string
+     */
+    public function getExecutionTimeToString()
+    {
+        return gmdate('H:i:s', $this->getExecutionTime());
+    }
+
+    /**
+     * Returns proportion between execution time and avg execution time
+     *
+     * @return float
+     */
+    public function getExecutionTimeProportion()
+    {
+        if($this->getExecutionTime() && $this->getProcess()->getAvgExecutionTime()) {
+            return round($this->getExecutionTime() / $this->getProcess()->getAvgExecutionTime(), 2);
+        } else {
+            return $this->getExecutionTime();
+        }
     }
 
     /**
@@ -236,5 +291,13 @@ class Call
     public function onPrePersist()
     {
         $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getProcess()->getCommand();
     }
 }
