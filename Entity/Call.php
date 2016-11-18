@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="console_manager_call")
  * @ORM\Entity(repositoryClass="RedCircle\ConsoleProcessManagerBundle\Repository\CallRepository")
  * @ORM\HasLifecycleCallbacks
+ *
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
  */
 class Call
 {

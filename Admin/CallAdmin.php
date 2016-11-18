@@ -8,6 +8,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
+/**
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
+ */
 class CallAdmin extends AbstractAdmin
 {
     protected $datagridValues = array(
@@ -74,14 +77,14 @@ class CallAdmin extends AbstractAdmin
             ->add('ExecutionTimeProportion', null, array(
                 'template' => 'ConsoleProcessManagerBundle:CRUD:call_execution_time_proportion.html.twig'
             ))
-            ->add('createdAt', null, array('format' => 'Y-m-d H:i:s'))
-            ->add('finishedAt', null, array('format' => 'Y-m-d H:i:s'))
             ->add('executionTime', null, array(
                 'template' => 'ConsoleProcessManagerBundle:CRUD:execution_time_field.html.twig'
             ))
-            ->add('process.avgExecutionTime', null, array(
-                'template' => 'ConsoleProcessManagerBundle:CRUD:execution_time_field.html.twig'
-            ))
+//            ->add('process.avgExecutionTime', null, array(
+//                'template' => 'ConsoleProcessManagerBundle:CRUD:execution_time_field.html.twig'
+//            ))
+            ->add('createdAt', null, array('format' => 'Y-m-d H:i:s'))
+            ->add('finishedAt', null, array('format' => 'Y-m-d H:i:s'))
             ->add('output', 'html', array(
                 'truncate' => array(
                     'preserve' => true

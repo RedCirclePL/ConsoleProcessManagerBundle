@@ -9,6 +9,9 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
+/**
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
+ */
 class CommandListener
 {
     private $processRepository;

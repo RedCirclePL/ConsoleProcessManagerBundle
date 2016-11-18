@@ -1,0 +1,14 @@
+
+services:
+    # sonata admin
+    console_process_manager.admin.process:
+        class: RedCircle\ConsoleProcessManagerBundle\Admin\ProcessAdmin
+        arguments: [~, RedCircle\ConsoleProcessManagerBundle\Entity\Process, ConsoleProcessManagerBundle:ProcessAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Console Process Manager, label: Processes }
+
+    console_process_manager.admin.call:
+        class: RedCircle\ConsoleProcessManagerBundle\Admin\CallAdmin
+        arguments: [~, RedCircle\ConsoleProcessManagerBundle\Entity\Call, ConsoleProcessManagerBundle:CallAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Console Process Manager, label: Calls }

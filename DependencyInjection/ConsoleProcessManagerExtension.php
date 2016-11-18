@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Loader;
  * This is the class that loads and manages your bundle configuration
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ *
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
  */
 class ConsoleProcessManagerExtension extends Extension
 {
@@ -24,5 +26,9 @@ class ConsoleProcessManagerExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if(class_exists('Sonata\\AdminBundle\\Admin\\AbstractAdmin')) {
+            $loader->load('services_sonata_admin.yml');
+        }
     }
 }

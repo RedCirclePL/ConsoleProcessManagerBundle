@@ -8,6 +8,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
+/**
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
+ */
 class ProcessAdmin extends AbstractAdmin
 {
     protected $datagridValues = array(

@@ -10,6 +10,8 @@ use RedCircle\ConsoleProcessManagerBundle\Entity\Process;
 
 /**
  * ProcessRepository
+ *
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
  */
 class ProcessRepository extends EntityRepository
 {

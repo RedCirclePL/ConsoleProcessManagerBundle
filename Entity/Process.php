@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="console_manager_process")
  * @ORM\Entity(repositoryClass="RedCircle\ConsoleProcessManagerBundle\Repository\ProcessRepository")
  * @ORM\HasLifecycleCallbacks
+ *
+ * @author Mateusz Krysztofiak <mateusz@krysztofiak.net>
  */
 class Process
 {
