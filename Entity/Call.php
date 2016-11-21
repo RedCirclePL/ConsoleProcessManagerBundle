@@ -220,8 +220,10 @@ class Call
     {
         if($this->getExecutionTime() && $this->getProcess()->getAvgExecutionTime()) {
             return round($this->getExecutionTime() / $this->getProcess()->getAvgExecutionTime(), 2);
-        } else {
+        } else if ($this->getExecutionTime()) {
             return $this->getExecutionTime();
+        } else {
+            return 1;
         }
     }
 
