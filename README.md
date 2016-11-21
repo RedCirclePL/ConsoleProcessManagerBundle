@@ -20,3 +20,23 @@ class AppKernel extends Kernel
     return $bundles;
     }
 }
+```
+
+### Troubleshooting
+
+
+#### Unknown Entity namespace alias 'ConsoleProcessManagerBundle'. 
+If you are using `entity_managers.default.mappings`, and have bellow issue.
+```
+[Doctrine\ORM\ORMException]                                    
+Unknown Entity namespace alias 'ConsoleProcessManagerBundle'. 
+```
+Simply add `ConsoleProcessManagerBundle: ~` in your `config.yml` file.
+
+```
+entity_managers:
+    default:
+        mappings:
+            ...
+            ConsoleProcessManagerBundle: ~
+```

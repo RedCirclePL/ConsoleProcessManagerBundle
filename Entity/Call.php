@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Call
 {
-
     const STATUS_STARTED = 0;
     const STATUS_SUCCESS = 1;
     const STATUS_FAIL = 2;
@@ -193,7 +192,7 @@ class Call
      */
     public function getExecutionTime()
     {
-        if(!$this->getFinishedAt()) {
+        if (!$this->getFinishedAt()) {
             $now = new \DateTime();
             return $now->getTimestamp() - $this->getCreatedAt()->getTimestamp();
         } else {
@@ -218,11 +217,11 @@ class Call
      */
     public function getExecutionTimeProportion()
     {
-        if($this->getExecutionTime() && $this->getProcess()->getAvgExecutionTime()) {
+        if ($this->getExecutionTime() && $this->getProcess()->getAvgExecutionTime()) {
             return round($this->getExecutionTime() / $this->getProcess()->getAvgExecutionTime(), 2);
-        } else if ($this->getExecutionTime()) {
+        } elseif ($this->getExecutionTime()) {
             return $this->getExecutionTime();
-        } else if ($this->getProcess()->getAvgExecutionTime()) {
+        } elseif ($this->getProcess()->getAvgExecutionTime()) {
             return 0;
         } else {
             return 1;
