@@ -222,6 +222,8 @@ class Call
             return round($this->getExecutionTime() / $this->getProcess()->getAvgExecutionTime(), 2);
         } else if ($this->getExecutionTime()) {
             return $this->getExecutionTime();
+        } else if ($this->getProcess()->getAvgExecutionTime()) {
+            return 0;
         } else {
             return 1;
         }
