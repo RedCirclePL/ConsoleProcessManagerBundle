@@ -68,9 +68,30 @@ class Process
     private $updatedAt;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="call_error_count", type="integer", nullable = true)
+     */
+    private $callErrorCount;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="call_last_error_time", type="datetime", nullable = true)
+     */
+    private $callLastErrorTime;
+
+    /**
      * @ORM\OneToMany(targetEntity="RedCircle\ConsoleProcessManagerBundle\Entity\Call", mappedBy="process")
+     * @ORM\OrderBy({"id" = "asc"})
      */
     private $calls;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RedCircle\ConsoleProcessManagerBundle\Entity\Call", inversedBy="process")
+     * @ORM\JoinColumn(name="last_call_id", referencedColumnName="id")
+     */
+    private $lastCall;
 
     /**
      * Get id
@@ -216,6 +237,42 @@ class Process
     }
 
     /**
+     * @return mixed
+     */
+    public function getCallErrorCount()
+    {
+        return $this->callErrorCount;
+    }
+
+    /**
+     * @param mixed $callErrorCount
+     * @return Process
+     */
+    public function setCallErrorCount($callErrorCount)
+    {
+        $this->callErrorCount = $callErrorCount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCallLastErrorTime()
+    {
+        return $this->callLastErrorTime;
+    }
+
+    /**
+     * @param mixed $callLastErrorTime
+     * @return Process
+     */
+    public function setCallLastErrorTime($callLastErrorTime)
+    {
+        $this->callLastErrorTime = $callLastErrorTime;
+        return $this;
+    }
+
+    /**
      * @param Call $call
      * @return $this
      */
@@ -230,6 +287,24 @@ class Process
      */
     public function getCalls() {
         return $this->calls;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastCall()
+    {
+        return $this->lastCall;
+    }
+
+    /**
+     * @param mixed $lastCall
+     * @return Process
+     */
+    public function setLastCall(Call $lastCall)
+    {
+        $this->lastCall = $lastCall;
+        return $this;
     }
 
     /**

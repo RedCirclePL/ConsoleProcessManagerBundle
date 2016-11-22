@@ -117,6 +117,9 @@ class ProcessRepository extends EntityRepository
                 avg_execution_time INT NOT NULL,
                 created_at DATETIME NOT NULL,
                 updated_at DATETIME NULL,
+                call_error_count INT NULL,
+                call_last_error_time DATETIME NULL,
+                last_call_id INT NULL,
                 PRIMARY KEY (id)
             )  DEFAULT CHARACTER SET UTF8 COLLATE UTF8_UNICODE_CI ENGINE=INNODB;
         ");

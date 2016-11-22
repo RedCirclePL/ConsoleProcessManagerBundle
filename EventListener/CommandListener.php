@@ -64,6 +64,9 @@ class CommandListener
 
         $this->processRepository->addCallToProcess($process, $call);
 
+        $process->setLastCall($call);
+        $this->processRepository->update($process);
+
         $_REQUEST['call_id'] = $call->getId();
     }
 
@@ -76,10 +79,12 @@ class CommandListener
     {
         $call = $this->callRepository->find($_REQUEST['call_id']);
 
-        $call->setStatus(Call::STATUS_FAIL)
+        $call->setStatus(Call::STATUS_FAILED)
             ->setOutput($event->getException());
 
         $this->callRepository->update($call);
+
+        $this->registerError($call);
     }
 
     /**
@@ -91,13 +96,15 @@ class CommandListener
     {
         $call = $this->callRepository->find($_REQUEST['call_id']);
 
-        if(!$call->getStatus()) {
+        if (!$call->getStatus()) {
             $call->setStatus(Call::STATUS_SUCCESS);
         }
 
-        if($event->getExitCode()) {
-            $call->setStatus(Call::STATUS_FAIL);
+        if ($event->getExitCode()) {
+            $call->setStatus(Call::STATUS_ABORTED);
             $call->setOutput(sprintf('Command finished with exit code: %s', $event->getExitCode()));
+
+            $this->registerError($call);
         }
 
         $call->setFinishedAt(new \DateTime());
@@ -118,5 +125,23 @@ class CommandListener
     private function getPid()
     {
         return posix_getpid();
+    }
+
+    /**
+     * @param Call $call
+     */
+    private function registerError(Call $call)
+    {
+        $process = $call->getProcess();
+        $process->setCallErrorCount(
+            $this->callRepository->countByProcessIdAndStatus(
+                $process->getId(),
+                [Call::STATUS_FAILED, Call::STATUS_ABORTED],
+                72
+            )
+        );
+        $process->setCallLastErrorTime(new \DateTime());
+
+        $this->processRepository->update($process);
     }
 }

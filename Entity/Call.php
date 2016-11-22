@@ -17,7 +17,9 @@ class Call
 {
     const STATUS_STARTED = 0;
     const STATUS_SUCCESS = 1;
-    const STATUS_FAIL = 2;
+    const STATUS_FAILED = 2;
+    const STATUS_ABORTED = 3;
+    const STATUS_RESOLVED = 4;
 
 
     /**
@@ -192,7 +194,7 @@ class Call
      */
     public function getExecutionTime()
     {
-        if (!$this->getFinishedAt()) {
+        if(!$this->getFinishedAt()) {
             $now = new \DateTime();
             return $now->getTimestamp() - $this->getCreatedAt()->getTimestamp();
         } else {
