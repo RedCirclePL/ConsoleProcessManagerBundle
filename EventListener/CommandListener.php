@@ -112,13 +112,6 @@ class CommandListener
         $this->callRepository->update($call);
 
         $this->processRepository->countAvgExecutionTime($call->getProcess(), $call->getExecutionTime());
-        $call->getProcess()->setCallErrorCount(
-            $this->callRepository->countByProcessIdAndStatus(
-                $call->getProcess()->getId(),
-                [Call::STATUS_FAILED, Call::STATUS_ABORTED],
-                72
-            )
-        );
         $this->processRepository->update($call->getProcess());
     }
 

@@ -2,6 +2,7 @@
 
 namespace RedCircle\ConsoleProcessManagerBundle\Entity;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -298,6 +299,26 @@ class Call
     {
         $this->setCreatedAt(new \DateTime());
     }
+
+    /**
+     * Gets triggered only after update
+     *
+     * @ORM\PostUpdate
+     * @param LifecycleEventArgs $event
+     */
+    public function countErrorsForProcess(LifecycleEventArgs $event)
+    {
+        $entityManager = $event->getEntityManager();
+        $repository    = $entityManager->getRepository(get_class($this));
+
+        $repository->countByProcessIdAndStatus(
+            $this->getProcess(),
+            [self::STATUS_FAILED, self::STATUS_ABORTED],
+            72,
+            true
+        );
+    }
+
 
     /**
      * @return string

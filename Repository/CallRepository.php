@@ -4,6 +4,7 @@ namespace RedCircle\ConsoleProcessManagerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use RedCircle\ConsoleProcessManagerBundle\Entity\Call;
+use RedCircle\ConsoleProcessManagerBundle\Entity\Process;
 
 /**
  * CallRepository
@@ -27,18 +28,21 @@ class CallRepository extends EntityRepository
     }
 
     /**
-     * @param $processId
+     * @param Process $process
+     * @param null $status
      * @param null $inLastHours
+     * @param bool $autoUpdateProcess
      * @return mixed
+     * @internal param $processId
      */
-    public function countByProcessIdAndStatus($processId, $status = null, $inLastHours = null)
+    public function countByProcessIdAndStatus(Process $process, $status = null, $inLastHours = null, $autoUpdateProcess = false)
     {
         $qb = $this->getEntityManager()
             ->createQueryBuilder('pmc')
             ->from('ConsoleProcessManagerBundle:Call', 'pmc')
             ->select('count(pmc)')
             ->where('pmc.process = :id')
-            ->setParameter('id', $processId);
+            ->setParameter('id', $process->getId());
 
         if($status) {
             if(is_array($status)) {
@@ -56,7 +60,15 @@ class CallRepository extends EntityRepository
         }
 
         $result = $qb->getQuery()->getOneOrNullResult();
-        return $result && is_array($result) ? (int)$result[1] : 0;
-    }
+        $forReturn = $result && is_array($result) ? (int)$result[1] : 0;
 
+        if($autoUpdateProcess) {
+            $process->setCallErrorCount($forReturn);
+            $em = $this->getEntityManager();
+            $em->persist($process);
+            $em->flush($process);
+        }
+
+        return $forReturn;
+    }
 }
